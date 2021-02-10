@@ -2,11 +2,17 @@ import React from 'react'
 import Recipe from './Recipe'
 
 
-export default function RecipeList() {
+export default function RecipeList({ recipes }) {
     return (
-        <>
-        <Recipe />   
-        <Recipe />   
-        </>
+    <div>
+        {recipes.map(recipes =>{
+            return (
+            <Recipe 
+            key={recipes.id} 
+            {...recipes} 
+            />
+            )
+        })}
+    </div>
     )
 }

@@ -4,6 +4,7 @@ import Recipe from './Recipe'
 
 export default function RecipeList({ recipes }) {
     return (
+        <div className='recipe-list'>
     <div>
         {recipes.map(recipes =>{
             return (
@@ -14,5 +15,9 @@ export default function RecipeList({ recipes }) {
             )
         })}
     </div>
+        <div className='recipe-list_add-recipe-btn-container'> 
+    </div>
+     <button className='btn btn--primary'> Add Recipe </button>
+     </div>
     )
 }

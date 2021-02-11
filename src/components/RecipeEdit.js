@@ -1,4 +1,6 @@
 import React from 'react'
+import RecipeIngredientEdit from './RecipeIngredientEdit'
+
 
 export default function RecipeEdit() {
     return (
@@ -22,7 +24,9 @@ export default function RecipeEdit() {
                 <div>Name</div>
                 <div>Amount</div>
                 <div></div>
-                {/* Ingredient Components */}
+                <RecipeIngredientEdit />
+                <RecipeIngredientEdit />
+                
             </div>
             <div><button>Add ingredients</button></div>
         </div>

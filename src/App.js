@@ -8,11 +8,17 @@ import { v4 as uuidv4 } from 'uuid'
 const LOCAL_STORAGE_KEY = 'cookingRecipes.recipes'
 
 function App() {
+const [selectedRecipeId, setSelectedRecipeId] = useState()
 const [recipes, setRecipes] = useState(sampleRecipes)
+const selectedRecipe = recipes.find(recipe => 
+  recipe.id === selectedRecipeId)
+
 
 const recipeContextValue={
   handleRecipeAdd,
-  handleRecipeDelete
+  handleRecipeDelete,
+  handleRecipeSelect,
+  handleRecipeChange
 }
 useEffect(()=>{
   const recipeJSON = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -23,30 +29,44 @@ useEffect(()=>{
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes))
 },[recipes])
 
+function handleRecipeSelect(id){
+
+  setSelectedRecipeId(id)
+}
 
 
 function handleRecipeAdd(){
   const newRecipe ={
     id:uuidv4(),
-    name:'new',
+    name:'',
     servings:1,
-    cookTime:'1:00',
-    instructions:'Instr',
+    cookTime:'',
+    instructions:'',
     ingredients:[{id:uuidv4(),
-      name:'Name',
-      amount:'1Tbs'
+      name:'',
+      amount:''
     }]
   }
+  setSelectedRecipeId(newRecipe.id)
   setRecipes([...recipes, newRecipe])
 }
 
+function handleRecipeChange(id, recipe){
+  const newRecipes =[...recipes]
+  const index = newRecipes.findIndex(r=> r.id === id )
+  newRecipes[index] = recipe 
+  setRecipes(newRecipes)
+}
 function handleRecipeDelete(id){
+  if(selectedRecipeId != null && selectedRecipeId === id ){
+    setSelectedRecipeId(undefined)
+  }
 setRecipes(recipes.filter(recipe => recipe.id !== id ))
 }
   return (
     <RecipeContext.Provider value={recipeContextValue}>
       <RecipeList recipes={recipes}/>
-      <RecipeEdit />
+     { selectedRecipe && <RecipeEdit recipe={selectedRecipe} />}
     </RecipeContext.Provider>
   );
 }
